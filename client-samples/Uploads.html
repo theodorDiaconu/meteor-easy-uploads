@@ -1,0 +1,39 @@
+<template name="TaskUploads">
+    {{# with dropzoneData }}
+        {{> dropzone }}
+    {{/ with }}
+    <hr />
+    <div id="gallery" class="task-gallery">
+        {{# each uploads }}
+            {{# unless isImage }}
+                <div class="non-image-gallery-element">
+                    <i class="fa fa-file"></i>
+                    <span class="text">
+                        {{ name }}
+                    </span>
+                    <span class="actions">
+                        <a class="btn btn-default" href="{{ s3 key }}" target="_blank"><i class="fa fa-download"></i></a>
+                        <a class="btn btn-default delete-file" data-id="{{ _id }}">Delete</a>
+                    </span>
+                </div>
+            {{/ unless }}
+        {{/ each }}
+        {{# each uploads }}
+            {{# if isImage }}
+                <div class="gallery-element">
+                    <a href="{{ s3 path }}" class="fancybox" onclick="return false;" rel="gallery">
+                        <img src="{{ s3 thumb }}" alt="{{ truncate name 10 }}" width="100px" />
+                    </a>
+
+                    <div class="gallery-options">
+                        <a class="delete-file" data-id="{{ _id }}">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+            {{/ if }}
+        {{ else }}
+            No files uploaded.
+        {{/ each }}
+    </div>
+</template>
